@@ -2,7 +2,7 @@ package net.sonclub.wechat
 
 class TextHandleService {
 
-    def _() {
+    def joinMatch() {
          println("fffffffffffff")
     }
 }
