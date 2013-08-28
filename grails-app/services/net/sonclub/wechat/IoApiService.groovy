@@ -36,7 +36,7 @@ class IoApiService {
         toMsg.toUserName = fromMsg.fromUserName
         toMsg.msgType = "text"
         toMsg.createTime = (new Date().time / 1000).intValue()
-        params.toMsg = toMsg
+        params.put("toMsg", toMsg)
 
         if (message.MsgType == "text") {
             handleService =  textHandleService
