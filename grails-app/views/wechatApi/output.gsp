@@ -1,8 +1,7 @@
 <xml>
-    <ToUserName><![CDATA[${params.msg}]]></ToUserName>
-    <FromUserName><![CDATA[fromUser]]></FromUserName>
-    <CreateTime>1348831860</CreateTime>
-    <MsgType><![CDATA[text]]></MsgType>
-    <Content><![CDATA[this is a test]]></Content>
-    <MsgId>1234567890123456</MsgId>
+    <ToUserName><![CDATA[${params.toMsg.toUserName}]]></ToUserName>
+    <FromUserName><![CDATA[${params.toMsg.fromUserName}]]></FromUserName>
+    <CreateTime>${params.toMsg.createTime}</CreateTime>
+    <MsgType><![CDATA[${params.toMsg.msgType}]]></MsgType>
+    <Content><![CDATA[${params.toMsg.content}]]></Content>
 </xml>

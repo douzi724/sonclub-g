@@ -20,8 +20,8 @@ class WechatApiController {
     }
 
     def output() {
-        def message = new XmlSlurper().parseText(request.reader.text)
-        ioApiService.handleMsg(message, params)
+        def inMsg = new XmlSlurper().parseText(request.reader.text)
+        ioApiService.handleMsg(inMsg, params)
         render(contentType: "text/xml", view: "output.gsp")
     }
 }

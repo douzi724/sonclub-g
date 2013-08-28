@@ -1,35 +1,60 @@
 package net.sonclub.wechat
 
+import net.sonclub.FromMsg
+import net.sonclub.command.ToMsg
+
 
 class IoApiService {
 
     def textHandleService
     def eventHandleService
+    def messageSource
+
+    def textCommand = [
+        "+": "joinMatch",
+        "-": "exitMatch",
+        "?": "commandHelp",
+        "？": "commandHelp",
+        "help": "commandHelp"
+    ]
 
     def handleMsg(message, params) {
         def handleService
-        def action
+
+        def fromMsg = new FromMsg()
+        fromMsg.fromUserName = message.FromUserName
+        fromMsg.toUserName = message.ToUserName
+        fromMsg.msgType = message.MsgType
+        fromMsg.msgId = message.MsgId
+        fromMsg.createTime = new Date((message.CreateTime.toLong()) * 1000)
+        fromMsg.content = message.Content
+        fromMsg.event = message.Event
+        fromMsg.save()
+
+        def toMsg = new ToMsg()
+        toMsg.fromUserName = fromMsg.toUserName
+        toMsg.toUserName = fromMsg.fromUserName
+        toMsg.msgType = "text"
+        toMsg.createTime = (new Date().time / 1000).intValue()
+        params.toMsg = toMsg
 
         if (message.MsgType == "text") {
             handleService =  textHandleService
-            action = message.Content
-            if (action == "+") action = "joinMatch"
-            if (action == "-") action = "exitMatch"
-            if (action == "?") action = "commandHelp"
+            fromMsg.action = textCommand.get(message.Content.toString()) ?: message.Content
         } else if (message.MsgType == "event") {
             handleService =  eventHandleService
-            action = message.Event
+            fromMsg.action = fromMsg.event
         } else {
-            println('bubububu')
+            toMsg.content = messageSource.getMessage("wechat.command.error", null, null)
         }
         try {
-            if (handleService.metaClass.respondsTo(handleService, action)) {
-                handleService."${action}"()
+            if (handleService.metaClass.respondsTo(handleService, fromMsg.action)) {
+                handleService."${fromMsg.action}"(fromMsg, toMsg)
             } else {
-                println('nononon')
+                toMsg.content = messageSource.getMessage("wechat.command.error", null, null)
             }
         } catch (Exception e) {
-            println('nononon')
+            toMsg.content = messageSource.getMessage("wechat.command.error", null, null)
         }
     }
 }
