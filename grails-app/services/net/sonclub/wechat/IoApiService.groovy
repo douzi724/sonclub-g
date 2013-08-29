@@ -45,16 +45,16 @@ class IoApiService {
             handleService =  eventHandleService
             fromMsg.action = fromMsg.event
         } else {
-            toMsg.content = messageSource.getMessage("wechat.command.error", null, null)
+            toMsg.content = messageSource.getMessage("wechat.text.error", null, new Locale("zh", "CN"))
         }
         try {
             if (handleService.metaClass.respondsTo(handleService, fromMsg.action)) {
                 handleService."${fromMsg.action}"(fromMsg, toMsg)
             } else {
-                toMsg.content = messageSource.getMessage("wechat.command.error", null, null)
+                toMsg.content = messageSource.getMessage("wechat.text.error", null, new Locale("zh", "CN"))
             }
         } catch (Exception e) {
-            toMsg.content = messageSource.getMessage("wechat.command.error", null, null)
+            toMsg.content = messageSource.getMessage("wechat.text.error", null, new Locale("zh", "CN"))
         }
     }
 }

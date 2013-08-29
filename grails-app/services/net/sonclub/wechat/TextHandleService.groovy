@@ -5,6 +5,8 @@ import net.sonclub.command.ToMsg
 
 class TextHandleService {
 
+    def messageSource
+
     def joinMatch(FromMsg fromMsg, ToMsg toMsg) {
         println("fffffffffffff")
     }
@@ -14,6 +16,6 @@ class TextHandleService {
     }
 
     def commandHelp(FromMsg fromMsg, ToMsg toMsg) {
-        println("fffffffffffff")
+        toMsg.content =  messageSource.getMessage("wechat.text.help", null, new Locale("zh", "CN"))
     }
 }

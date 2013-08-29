@@ -9,6 +9,7 @@ class WechatApiController {
     private authWechat() {
         def signature = [ grailsApplication.config.wechat.token, params.timestamp, params.nonce]
         signature.sort()
+        //println(signature.join('').encodeAsSHA1())
         if (params.signature != signature.join('').encodeAsSHA1()) {
             response.status = 403
             return false
