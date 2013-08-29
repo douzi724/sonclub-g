@@ -8,10 +8,9 @@ class FromMsg {
     String msgId
     Date createTime
     String content
-    String event
-
     String action
 
     static constraints = {
+         action nullable: true
     }
 }
