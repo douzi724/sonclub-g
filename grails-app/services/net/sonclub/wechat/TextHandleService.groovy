@@ -15,7 +15,15 @@ class TextHandleService {
         println("fffffffffffff")
     }
 
+    //查看帮助
     def commandHelp(FromMsg fromMsg, ToMsg toMsg) {
         toMsg.content =  messageSource.getMessage("wechat.text.help", null, new Locale("zh", "CN"))
+    }
+
+    //自定义方法
+    def custom(FromMsg fromMsg, ToMsg toMsg) {
+        if (fromMsg.action ==~ /@*@*@*/) {
+           println("dsadasd")
+        }
     }
 }

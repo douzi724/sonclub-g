@@ -1,7 +1,9 @@
 package net.sonclub.wechat
 
 import net.sonclub.FromMsg
+import net.sonclub.SysUser
 import net.sonclub.command.ToMsg
+import net.sonclub.common.UserStatus
 
 
 class IoApiService {
@@ -18,29 +20,13 @@ class IoApiService {
         "help": "commandHelp"
     ]
 
-    def handleMsg(message, params) {
+    def handleMsg(FromMsg fromMsg, ToMsg toMsg) {
         def handleService
 
-        def fromMsg = new FromMsg()
-        fromMsg.fromUserName = message.FromUserName
-        fromMsg.toUserName = message.ToUserName
-        fromMsg.msgType = message.MsgType
-        fromMsg.msgId = message.MsgId
-        fromMsg.createTime = new Date((message.CreateTime.toLong()) * 1000)
-
-        def toMsg = new ToMsg()
-        toMsg.fromUserName = fromMsg.toUserName
-        toMsg.toUserName = fromMsg.fromUserName
-        toMsg.msgType = "text"
-        toMsg.createTime = (new Date().time / 1000).intValue()
-        params.put("toMsg", toMsg)
-
-        if (message.MsgType == "text") {
+        if (fromMsg.msgType == "text") {
             handleService =  textHandleService
-            fromMsg.content = message.Content
-            fromMsg.action = textCommand.get(fromMsg.content.toString()) ?: fromMsg.content
-        } else if (message.MsgType == "event") {
-            fromMsg.content = message.Event
+            fromMsg.action = textCommand.get(fromMsg.content.toString()) ?: "custom"
+        } else if (fromMsg.msgType == "event") {
             handleService =  eventHandleService
             fromMsg.action = fromMsg.content
         } else {
@@ -58,7 +44,16 @@ class IoApiService {
             fromMsg.action = "commandErr"
             toMsg.content = messageSource.getMessage("wechat.text.error", null, new Locale("zh", "CN"))
         } finally {
-            fromMsg.save()
+
         }
+    }
+
+    def checkUser(FromMsg fromMsg, ToMsg toMsg) {
+        if (inMsg.Event == "subscribe") {
+
+        }
+        def user = SysUser.findByWechatId(toMsg.toUserName)
+        if (user != null && user.status == UserStatus.on) return true
+        return false
     }
 }

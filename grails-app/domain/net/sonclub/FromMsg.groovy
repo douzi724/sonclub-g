@@ -11,6 +11,7 @@ class FromMsg {
     String action
 
     static constraints = {
-         action nullable: true
+        action nullable: true
+        msgId nullable: true
     }
 }
