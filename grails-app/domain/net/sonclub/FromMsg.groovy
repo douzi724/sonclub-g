@@ -2,16 +2,19 @@ package net.sonclub
 
 class FromMsg {
 
-    String toUserName
-    String fromUserName
+    String fromUser
+    String toUser
     String msgType
-    String msgId
+    String msgKey
     Date createTime
     String content
+
     String action
+    String remark
 
     static constraints = {
+        msgKey nullable: true
         action nullable: true
-        msgId nullable: true
+        remark nullable: true
     }
 }

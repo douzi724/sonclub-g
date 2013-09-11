@@ -8,8 +8,8 @@ package net.sonclub.command
  * To change this template use File | Settings | File Templates.
  */
 class ToMsg {
-    String toUserName
-    String fromUserName
+    String toUser
+    String fromUser
     String createTime
     String msgType
     String content

@@ -1,6 +1,6 @@
 <xml>
-    <ToUserName><![CDATA[${params.toMsg.toUserName}]]></ToUserName>
-    <FromUserName><![CDATA[${params.toMsg.fromUserName}]]></FromUserName>
+    <ToUserName><![CDATA[${params.toMsg.toUser}]]></ToUserName>
+    <FromUserName><![CDATA[${params.toMsg.fromUser}]]></FromUserName>
     <CreateTime>${params.toMsg.createTime}</CreateTime>
     <MsgType><![CDATA[${params.toMsg.msgType}]]></MsgType>
     <Content><![CDATA[${params.toMsg.content}]]></Content>

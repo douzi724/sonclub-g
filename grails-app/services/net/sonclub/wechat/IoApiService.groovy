@@ -4,13 +4,20 @@ import net.sonclub.FromMsg
 import net.sonclub.SysUser
 import net.sonclub.command.ToMsg
 import net.sonclub.common.UserStatus
+import net.sonclub.exception.WechatAuthException
+import net.sonclub.exception.WechatCommandException
+import org.apache.shiro.subject.PrincipalCollection
+import org.apache.shiro.subject.SimplePrincipalCollection
+import org.apache.shiro.subject.Subject
 
 
 class IoApiService {
 
+    def shiroSecurityManager
+    def messageSource
+
     def textHandleService
     def eventHandleService
-    def messageSource
 
     def textCommand = [
         "+": "joinMatch",
@@ -20,40 +27,47 @@ class IoApiService {
         "help": "commandHelp"
     ]
 
-    def handleMsg(FromMsg fromMsg, ToMsg toMsg) {
+    //处理消息
+    def String handleMsg(FromMsg fromMsg) {
         def handleService
 
-        if (fromMsg.msgType == "text") {
-            handleService =  textHandleService
-            fromMsg.action = textCommand.get(fromMsg.content.toString()) ?: "custom"
-        } else if (fromMsg.msgType == "event") {
-            handleService =  eventHandleService
-            fromMsg.action = fromMsg.content
-        } else {
-            toMsg.content = messageSource.getMessage("wechat.text.error", null, new Locale("zh", "CN"))
-        }
-
         try {
-            if (handleService.metaClass.respondsTo(handleService, fromMsg.action)) {
-                handleService."${fromMsg.action}"(fromMsg, toMsg)
+            //指定处理方法
+            if (fromMsg.msgType == "text") {
+                handleService =  textHandleService
+                fromMsg.action = textCommand.get(fromMsg.content) ?: "custom"
+            } else if (fromMsg.msgType == "event") {
+                handleService =  eventHandleService
+                fromMsg.action = fromMsg.content
             } else {
-                fromMsg.action = "commandErr"
-                toMsg.content = messageSource.getMessage("wechat.text.error", null, new Locale("zh", "CN"))
+                throw new WechatCommandException()
             }
-        } catch (Exception e) {
+            //处理并返回信息
+            if (handleService.metaClass.respondsTo(handleService, fromMsg.action)) {
+                if (buildSubject(fromMsg.fromUser).isPermitted("comm:${fromMsg.msgType}:${fromMsg.action}")) {
+                    return handleService."${fromMsg.action}"(fromMsg)
+                } else {
+                    throw new WechatAuthException()
+                }
+            } else {
+                throw new WechatCommandException()
+            }
+        } catch (WechatCommandException e) {
             fromMsg.action = "commandErr"
-            toMsg.content = messageSource.getMessage("wechat.text.error", null, new Locale("zh", "CN"))
+            return e.getMessage()
+        } catch (WechatCommandException e) {
+            fromMsg.action = "notAuth"
+            return e.getMessage()
+        } catch (Exception e) {
+            fromMsg.action = "xErr"
+            return new WechatCommandException().getMessage()
         } finally {
-
+            fromMsg.save()
         }
     }
 
-    def checkUser(FromMsg fromMsg, ToMsg toMsg) {
-        if (inMsg.Event == "subscribe") {
-
-        }
-        def user = SysUser.findByWechatId(toMsg.toUserName)
-        if (user != null && user.status == UserStatus.on) return true
-        return false
+    private Subject buildSubject(String userIdentity) {
+        PrincipalCollection principals = new SimplePrincipalCollection(userIdentity, "DbRealm");
+        return new Subject.Builder(shiroSecurityManager).principals(principals).buildSubject();
     }
 }
