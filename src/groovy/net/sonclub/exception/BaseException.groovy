@@ -1,5 +1,7 @@
 package net.sonclub.exception
 
+import org.codehaus.groovy.grails.plugins.web.taglib.ApplicationTagLib
+
 /**
  * Created with IntelliJ IDEA.
  * User: nemo
@@ -8,7 +10,7 @@ package net.sonclub.exception
  * To change this template use File | Settings | File Templates.
  */
 class BaseException extends Exception{
-    def messageSource
+    private static ApplicationTagLib messageTag = new ApplicationTagLib()
 
     //消息代码，与国际化文件中对应
     protected String code
@@ -17,7 +19,6 @@ class BaseException extends Exception{
 
     @Override
     public String getMessage() {
-        return messageSource.getMessage(code, args, new Locale("zh", "CN"))
+        return messageTag.message(code:code, args:args, locale: new Locale("zh", "CN"))
     }
-
 }

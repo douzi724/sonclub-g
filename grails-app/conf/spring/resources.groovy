@@ -1,3 +1,4 @@
+import net.sonclub.exception.BaseException
 import org.apache.shiro.authc.credential.Sha512CredentialsMatcher
 
 // Place your Spring DSL code here

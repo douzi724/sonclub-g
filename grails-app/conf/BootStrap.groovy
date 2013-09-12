@@ -1,5 +1,4 @@
 import net.sonclub.shiro.Role
-import net.sonclub.shiro.User
 
 class BootStrap {
     def shiroSecurityService
@@ -8,16 +7,18 @@ class BootStrap {
         //shiroSecurityManager.subjectDAO.sessionStorageEvaluator = sessionStorageEvaluator
 
         // Create the normal role
-        def normalRole = Role.findByName('sc_normal') ?:
+        def normalRole = Role.findByName('wc_normal') ?:
             new Role(
-                    name: 'sc_normal',
-                    remark: "普通用户",
-                    permissions:
+                    name: 'wc_normal',
+                    remark: "微信普通用户",
+                    permissions: ["comm:event:subscribe",
+                            "comm:event:unsubscribe",
+                            "comm:text:commandHelp"]
             ).save(flush: true, failOnError: true)
 
         // Create the admin role
-        def adminRole = Role.findByName('sc_admin') ?:
-            new Role(name: 'sc_admin', remark: "管理员").save(flush: true, failOnError: true)
+        def adminRole = Role.findByName('su_admin') ?:
+            new Role(name: 'su_admin', remark: "管理员").save(flush: true, failOnError: true)
 
         // Create an admin user
         /*def adminUser = User.findByUsername('admin') ?:
@@ -26,9 +27,9 @@ class BootStrap {
                     .save(flush: true, failOnError: true)*/
 
         // Add roles to the admin user
-        assert normalRole.addToPermissions(adminRole)
+        /*assert normalRole.addToPermissions(adminRole)
                 .addToRoles(userRole)
-                .save(flush: true, failOnError: true)
+                .save(flush: true, failOnError: true)*/
 
     }
     def destroy = {

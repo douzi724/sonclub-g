@@ -1,23 +1,21 @@
 package net.sonclub.wechat
 
 import net.sonclub.FromMsg
-import net.sonclub.SysUser
-import net.sonclub.command.ToMsg
-import net.sonclub.common.UserFlag
 import net.sonclub.common.UserStatus
-import net.sonclub.common.UserType
+import net.sonclub.shiro.User
 
 class EventHandleService {
     def messageSource
 
     //订阅
-    def subscribe(FromMsg fromMsg, ToMsg toMsg) {
-        toMsg.content = messageSource.getMessage("wechat.event.subscribe", null, new Locale("zh", "CN")) + messageSource.getMessage("wechat.text.unauth", null, new Locale("zh", "CN"))
+    def subscribe(FromMsg fromMsg) {
+        return messageSource.getMessage("wechat.event.subscribe", null, new Locale("zh", "CN")) +
+                messageSource.getMessage("wechat.exception.notauth", null, new Locale("zh", "CN"))
     }
 
     //退订
-    def unsubscribe(FromMsg fromMsg, ToMsg toMsg) {
-        def user = SysUser.findByWechatId(toMsg.toUserName)
+    def unsubscribe(FromMsg fromMsg) {
+        def user = User.findByUsername(fromMsg.fromUser)
         if (user != null) {
             user.status = UserStatus.off
             user.save()

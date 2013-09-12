@@ -11,6 +11,9 @@ class WechatCommandException extends BaseException{
     public WechatCommandException() {
         this.code = "wechat.exception.error"
     }
+    public WechatCommandException(Object[] args) {
+        this.args = args;
+    }
     public WechatCommandException(String code, Object[] args) {
         this.code = code;
         this.args = args;

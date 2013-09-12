@@ -7,9 +7,12 @@ package net.sonclub.exception
  * Time: 下午6:05
  * To change this template use File | Settings | File Templates.
  */
-class WechatAuthException  extends BaseException{
+class WechatAuthException extends BaseException{
     public WechatAuthException() {
-        this.code = "wechat.exception.notauth"
+        this.code = "wechat.exception.unauth"
+    }
+    public WechatAuthException(Object[] args) {
+        this.args = args;
     }
     public WechatAuthException(String code, Object[] args) {
         this.code = code;
