@@ -7,14 +7,13 @@ package net.sonclub.shiro
 class SecurityFilters {
     static nonAuthenticatedActions = [
             [controller: 'wechatApi', action: 'input'],
-            [controller: 'wechatApi', action: 'output']
+            [controller: 'wechatApi', action: 'output'],
+            [controller: 'user', action: 'auth']
     ]
 
     def filters = {
         all(uri: "/**") {
             before = {
-                println(controllerName)
-                println(actionName)
                 // Ignore direct views (e.g. the default main index page).
                 if (!controllerName) return true
 

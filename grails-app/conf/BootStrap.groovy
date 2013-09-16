@@ -1,7 +1,7 @@
 import net.sonclub.shiro.Role
 
 class BootStrap {
-    def shiroSecurityService
+    //def shiroSecurityService
     def init = { servletContext ->
         //def sessionStorageEvaluator = new HybridSessionStorageEvaluator()
         //shiroSecurityManager.subjectDAO.sessionStorageEvaluator = sessionStorageEvaluator

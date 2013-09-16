@@ -26,7 +26,7 @@
         </tr>
         <tr>
           <td />
-          <td><input type="submit" value="Sign in" /></td>
+          <td><input type="submit" class="btn-info" value="Sign in" /></td>
         </tr>
       </tbody>
     </table>

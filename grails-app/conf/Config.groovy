@@ -11,6 +11,8 @@
 // }
 //grails.config.locations = [ "file:./grails-app/conf/CustomConfig.groovy" ]
 wechat.token = "nemo"
+grails.plugins.twitterbootstrap.fixtaglib = true
+grails.plugins.twitterbootstrap.defaultBundle = 'sonclub'
 
 grails.project.groupId = "net.${appName}" // change this to alter the default package name and Maven publishing destination
 grails.mime.file.extensions = true // enables the parsing of file extensions from URLs into the request format
