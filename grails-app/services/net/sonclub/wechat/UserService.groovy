@@ -1,6 +1,5 @@
 package net.sonclub.wechat
 
-import net.sonclub.common.UserFlag
 import net.sonclub.common.UserStatus
 import net.sonclub.common.UserType
 import net.sonclub.shiro.Role
@@ -23,7 +22,6 @@ class UserService {
                     passwordHash: shiroSecurityService.encodePassword('sonclub'),
                     type: UserType.wechat,
                     status: UserStatus.unauth,
-                    flagX: UserFlag.player,
                     roles: Role.findByName("wc_normal")
             ).save(flush:true, failOnError: true)
     }
