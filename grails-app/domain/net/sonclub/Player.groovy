@@ -10,6 +10,6 @@ class Player {
     UserFlag userFlag
 
     static constraints = {
-        number(nullable: true, blank: false)
+        number(blank: false, unique: true)
     }
 }

@@ -14,12 +14,12 @@ class User {
     String nickName
     String remark
 
-    static hasOne = [player: Player]
+    static hasOne = [ player: Player ]
     
     static hasMany = [ roles: Role, permissions: String ]
 
     static constraints = {
-        username(nullable: false, blank: false, unique: true)
+        username(blank: false, unique: true)
         nickName(nullable: true, unique: true)
         remark nullable: true
         player unique: true
