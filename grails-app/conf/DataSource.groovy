@@ -1,8 +1,5 @@
 dataSource {
     pooled = true
-    dbCreate = "update"
-    driverClassName = "com.mysql.jdbc.Driver"
-    dialect = org.hibernate.dialect.MySQL5InnoDBDialect
     username = "root"
     password = "111111"
 }
@@ -16,6 +13,8 @@ environments {
     development {
         dataSource {
             dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
+            driverClassName = "com.mysql.jdbc.Driver"
+            dialect = org.hibernate.dialect.MySQL5InnoDBDialect
             url = "jdbc:mysql://localhost:3306/sonclub-dev"
         }
     }
@@ -28,8 +27,8 @@ environments {
     production {
         dataSource {
             dbCreate = "update"
-            driverClassName = "com.mysql.jdbc.Driver"
-            pooled = true
+            driverClassName = "org.postgresql.Driver"
+            dialect = org.hibernate.dialect.PostgreSQLDialect
             properties {
                maxActive = -1
                minEvictableIdleTimeMillis=1800000
