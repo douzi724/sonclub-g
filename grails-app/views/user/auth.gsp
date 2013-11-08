@@ -11,7 +11,7 @@
                     <form role="form" class="auth-form">
                         <h3>队员信息完善</h3>
                         <div class="first-group">
-                            <input type="text" class="form-control" name="nickName" value="${fieldValue(bean:Player, field:'user.nickName')}" placeholder="昵称">
+                            <input type="text" class="form-control" name="nickName" placeholder="昵称">
                         </div>
                         <div class="auth-group">
                             <input type="number" class="form-control" id="exampleInputEmail1" placeholder="球衣号码">
@@ -21,6 +21,7 @@
                         </div>
                         <div class="submit-btn">
                             <button type="submit" style="font-size: 20px" class="btn btn-primary btn-block">确认</button>
+                            <a href="http://nemo.meteor.com">aaa</a>
                         </div>
                     </form>
                 </div>

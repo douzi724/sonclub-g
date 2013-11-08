@@ -27,8 +27,10 @@ environments {
     production {
         dataSource {
             dbCreate = "update"
-            driverClassName = "org.postgresql.Driver"
-            dialect = org.hibernate.dialect.PostgreSQLDialect
+            driverClassName = "com.mysql.jdbc.Driver"
+            dialect = org.hibernate.dialect.MySQL5InnoDBDialect
+            //driverClassName = "org.postgresql.Driver"
+            //dialect = org.hibernate.dialect.PostgreSQLDialect
             properties {
                maxActive = -1
                minEvictableIdleTimeMillis=1800000
