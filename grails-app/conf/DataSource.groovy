@@ -29,6 +29,10 @@ environments {
             dbCreate = "update"
             driverClassName = "com.mysql.jdbc.Driver"
             dialect = org.hibernate.dialect.MySQL5InnoDBDialect
+            username = "adminL8ILeNY"
+            password = "q-VfG5D5y8KH"
+            url = "jdbc:mysql://$OPENSHIFT_MYSQL_DB_HOST:$OPENSHIFT_MYSQL_DB_PORT/m"
+
             //driverClassName = "org.postgresql.Driver"
             //dialect = org.hibernate.dialect.PostgreSQLDialect
             properties {
